@@ -1,5 +1,6 @@
 /* This is the data we will be using, study it but don't change anything, yet. */
 
+
 let menuItems = [
   'Students',
   'Faculty',
@@ -31,3 +32,45 @@ let menuItems = [
 
   Step 6: Use 'menuMaker' to create a menu using the 'menuItems' array, and append the returned menu to the header.
 */
+function menuMaker(menuData) {
+  let menu = document.createElement("div");
+  menu.className = "menu";
+
+  let menuList = document.createElement("ul");
+  menu.appendChild(menuList);
+
+  menuData.forEach(item => {
+    let menuLi = document.createElement("li");
+    menuLi.textContent = item;    
+    menuList.appendChild(menuLi);
+  });
+
+  return menu;
+}
+
+let header = document.querySelector(".header");
+header.appendChild(menuMaker(menuItems));
+
+let menuButton = document.querySelector('.menu-button');
+let menu = document.querySelector(".menu");
+let ani = 0;
+menuButton.addEventListener("click", () => {
+  if (ani === 0) {
+    menu.classList.toggle("menu--open")
+    gsap.from(".menu", {duration: 1, opacity: 1, ease: "elastic", x: -150});   
+    ani++ 
+    ani++ 
+  } else if (ani === 1) {
+    menu.classList.toggle("menu--open")
+    gsap.to(".menu", {duration: 1, opacity: 1, ease: "elastic", x: 0});
+    ani++ 
+    console.log(menu.classList)
+  } else{
+    setTimeout(() => {menu.classList.toggle("menu--open"); }, 1000);
+    gsap.to(".menu", {duration: 1, opacity: 0, ease: "elastic", x: -150});
+    ani--
+    console.log(menu.classList)
+  }
+  
+});
+

@@ -87,7 +87,27 @@ const data = [
           Hodor. Hodor, hodor, hodor. Hodor hodor... Hodor hodor hodor?! Hodor, hodor... Hodor hodor HODOR hodor, hodor hodor. Hodor.`
   }
 ];
-
+data.push({
+  "title": "I love pancakes",
+  "date":"July 8th, 1872",
+  "firstParagraph": "I love pancakes, so much that I eat them for breakfast lunch and dinner.",
+  "secondParagraph": "If I could eat them while I slept, that would be even better.",
+  "thirdParagraph": "I hope I don't die from sugar rush.",
+});
+data.push({
+  "title": "I love Pizza",
+  "date":"August 10th, 1790",
+  "firstParagraph": "I love Pizza, so much that I eat them for breakfast lunch and dinner.",
+  "secondParagraph": "If I could eat them while I slept, that would be even better.",
+  "thirdParagraph": "I hope I don't die from grease in my vains.",
+});
+data.push({
+  "title": "I love puppies",
+  "date":"March 20th, 1907",
+  "firstParagraph": "I love puppies, so much that I eat them -oh I mean play with all day... long!",
+  "secondParagraph": "If I could eat -play, I mean play, them while I slept, that would be even better.",
+  "thirdParagraph": "I hope I don't die in prison.",
+});
 /* Step 1: Write a component called 'articleMaker' to create an article. You want your component to return markup like the template below: 
 
   <div class="article">
@@ -102,12 +122,90 @@ const data = [
   Hint: You will need to use createElement more than once here!
 
   Your function should take either an object as its one argument, or 5 separate strings mapping to each property of an article object.
+  */
 
-  Step 2: Add an event listener to the expandButton span. This listener should toggle the class 'article-open' on the 'article' div.
+  // Step 2: Add an event listener to the expandButton span. This listener should toggle the class 'article-open' on the 'article' div.
+    
+  // Step 3: Don't forget to return something from your function!
 
-  Step 3: Don't forget to return something from your function!
+  // Step 4: Outside your function, loop over the data. At each iteration you'll use your component to create an article and append it to the DOM inside the 'articles' div.
 
-  Step 4: Outside your function, loop over the data. At each iteration you'll use your component to create an article and append it to the DOM inside the 'articles' div.
+  let ani = 0;
+  function articleMaker(newfeedData) {
+      let article = document.createElement("div");
+      article.className = "article";
 
-  Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
-*/
+        let articleTitle = document.createElement("h2");
+        articleTitle.textContent = newfeedData.title;
+        article.appendChild(articleTitle);
+
+        let articleDate = document.createElement("p");
+        articleDate.className = "date";
+        articleDate.textContent = newfeedData.date;
+        article.appendChild(articleDate);
+
+        let articleParagraph1 = document.createElement("p");
+        articleParagraph1.textContent = newfeedData.firstParagraph;
+        article.appendChild(articleParagraph1);
+
+        let articleParagraph2 = document.createElement("p");
+        articleParagraph2.textContent = newfeedData.secondParagraph;
+        article.appendChild(articleParagraph2);
+
+        let articleParagraph3 = document.createElement("p");
+        articleParagraph3.textContent = newfeedData.thirdParagraph;
+        article.appendChild(articleParagraph3);
+
+        let expandButton = document.createElement("span");
+        expandButton.className = "expandButton"
+        expandButton.textContent = "+";
+        article.appendChild(expandButton);
+
+
+        // End of div 
+
+
+        expandButton.addEventListener("click", () => {
+          let all = document.querySelectorAll(".article");
+          if (ani === 0) {
+            article.classList.add('article-open')
+            gsap.from(".article-open", {duration: 1, ease: "elastic", height: 50});
+            ani++ 
+          
+          } else {
+            if (article.classList[1] === "article-open") {
+              gsap.to(".article-open", {duration: 1, ease: "elastic", height: 50});
+              article.classList.remove('article-open');  
+            } else {
+  
+              all.forEach( item => {
+                if (item.classList[1] === 'article-open') {
+                  gsap.to(".article-open", {duration: 1, ease: "elastic", height: 50});
+                  item.classList.remove('article-open');
+                } 
+              });
+              article.classList.add('article-open')
+              gsap.to(".article-open", {duration: 1, ease: "elastic", height: 400});
+            }
+          }
+
+
+
+        });
+
+      
+      return article;
+  }
+
+
+let articles = document.querySelector('.articles');
+  data.forEach( item => {
+    articles.appendChild(articleMaker(item));
+    console.log(articles.classList);  
+  })
+
+
+
+  
+  // Step 5: Add a new article to the array. Make sure it is in the same format as the others. Refresh the page to see the new article.
+
